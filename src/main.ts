@@ -1,28 +1,6 @@
 import Phaser from 'phaser';
-import {
-  BACKGROUND_COLOR,
-  GAME_HEIGHT,
-  GAME_WIDTH,
-  TEST_RECT_COLOR,
-  TEST_RECT_HEIGHT,
-  TEST_RECT_WIDTH,
-} from './config';
-
-class TestScene extends Phaser.Scene {
-  constructor() {
-    super('TestScene');
-  }
-
-  create(): void {
-    this.add.rectangle(
-      GAME_WIDTH / 2,
-      GAME_HEIGHT / 2,
-      TEST_RECT_WIDTH,
-      TEST_RECT_HEIGHT,
-      TEST_RECT_COLOR,
-    );
-  }
-}
+import { BACKGROUND_COLOR, GAME_HEIGHT, GAME_WIDTH } from './config';
+import { StageScene } from './scenes/StageScene';
 
 new Phaser.Game({
   type: Phaser.AUTO,
@@ -36,5 +14,8 @@ new Phaser.Game({
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
-  scene: [TestScene],
+  input: {
+    activePointers: 3,
+  },
+  scene: [StageScene],
 });
