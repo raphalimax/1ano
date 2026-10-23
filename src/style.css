@@ -17,7 +17,7 @@ body {
 body {
   position: fixed;
   inset: 0;
-  height: 100dvh;
+  height: var(--app-height, 100dvh);
 }
 
 #game {

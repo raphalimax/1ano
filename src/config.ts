@@ -3,6 +3,9 @@ export const GAME_HEIGHT = 216;
 
 export const BACKGROUND_COLOR = '#111118';
 
+// iOS informa o tamanho final da tela com atraso depois de girar (ms)
+export const VIEWPORT_RESYNC_DELAYS = [300, 1000];
+
 // Sala
 export const ROOM_WIDTH = GAME_WIDTH * 3;
 export const GROUND_Y = 176;

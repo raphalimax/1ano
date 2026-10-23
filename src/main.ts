@@ -1,8 +1,8 @@
 import Phaser from 'phaser';
-import { BACKGROUND_COLOR, GAME_HEIGHT, GAME_WIDTH } from './config';
+import { BACKGROUND_COLOR, GAME_HEIGHT, GAME_WIDTH, VIEWPORT_RESYNC_DELAYS } from './config';
 import { StageScene } from './scenes/StageScene';
 
-new Phaser.Game({
+const game = new Phaser.Game({
   type: Phaser.AUTO,
   parent: 'game',
   width: GAME_WIDTH,
@@ -19,3 +19,21 @@ new Phaser.Game({
   },
   scene: [StageScene],
 });
+
+// Chrome no iPhone às vezes fica com a altura antiga depois de girar:
+// usa a altura realmente visível e força o Phaser a remedir.
+function syncViewport(): void {
+  const height = window.visualViewport?.height ?? window.innerHeight;
+  document.documentElement.style.setProperty('--app-height', `${height}px`);
+  if (game.isBooted && game.scale.getParentBounds()) game.scale.refresh();
+}
+
+function syncViewportAfterRotation(): void {
+  syncViewport();
+  for (const delay of VIEWPORT_RESYNC_DELAYS) setTimeout(syncViewport, delay);
+}
+
+syncViewport();
+window.addEventListener('resize', syncViewport);
+window.visualViewport?.addEventListener('resize', syncViewport);
+window.addEventListener('orientationchange', syncViewportAfterRotation);
